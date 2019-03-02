@@ -23,4 +23,5 @@ const db = {
 }
 
 db.connection.sync();
-module.exports = db
+  
+module.exports = db;

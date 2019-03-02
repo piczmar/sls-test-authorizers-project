@@ -1,14 +1,42 @@
 'use strict';
 
-module.exports.hello = async (event, context) => {
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: 'Go Serverless v1.0! Your function executed successfully!',
-      input: event,
-    }),
-  };
+const db = require('../utils/db')
 
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
+module.exports.hello = (event, context, callback) => {
+  /**
+   * Testing Response
+   */
+  // const response = {
+  //   statusCode: 200,
+  //   body: JSON.stringify({
+  //       input: event,
+  //   })
+  // }
+
+  // callback(null, response)
+  
+  /**
+   * Testing Response from Database
+   */
+  db.User.findAll({})
+    .then(business => {
+        const response = {
+            statusCode: 200,
+            body: JSON.stringify({
+                business,
+            })
+        }
+    
+        callback(null, response)
+    })
+    .catch(err => {
+        const response = {
+            statusCode: 500,
+            body: JSON.stringify({
+                message: err,
+            })
+        }
+    
+        callback(null, response)
+    })
 };

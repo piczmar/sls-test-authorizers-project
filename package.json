@@ -19,5 +19,8 @@
   "dependencies": {
     "mysql2": "^1.6.5",
     "sequelize": "^4.42.1"
+  },
+  "devDependencies": {
+    "serverless-offline": "^4.7.1"
   }
 }
