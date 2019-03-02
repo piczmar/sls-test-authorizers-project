@@ -2,28 +2,16 @@
 
 const db = require('../utils/db')
 
-module.exports.hello = (event, context, callback) => {
-  /**
-   * Testing Response
-   */
-  // const response = {
-  //   statusCode: 200,
-  //   body: JSON.stringify({
-  //       input: event,
-  //   })
-  // }
-
-  // callback(null, response)
-  
+module.exports.users = (event, context, callback) => {  
   /**
    * Testing Response from Database
    */
   db.User.findAll({})
-    .then(business => {
+    .then(users => {
         const response = {
             statusCode: 200,
             body: JSON.stringify({
-                business,
+                users,
             })
         }
     
@@ -39,4 +27,21 @@ module.exports.hello = (event, context, callback) => {
     
         callback(null, response)
     })
+};
+
+module.exports.user = (event, context, callback) => {
+    const user = event.requestContext.authorizer.principalId
+
+    /**
+    * Testing Response
+    */
+    const response = {
+        statusCode: 200,
+        body: JSON.stringify({
+            user: user,
+            // input: event,
+        })
+    }
+
+    callback(null, response)
 };

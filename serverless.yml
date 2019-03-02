@@ -55,12 +55,23 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  hello:
-    handler: functions/handler.hello
+  users:
+    handler: functions/handler.users
     events:
       - http: 
           path: /users
           method: GET
+
+  user:
+    handler: functions/handler.user
+    events:
+      - http: 
+          path: /user
+          method: GET
+          authorizer: userAuth
+          
+  userAuth:
+    handler: middleware/user.verifyToken
 
 plugins:
   - serverless-offline
