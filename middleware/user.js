@@ -6,6 +6,7 @@ const db = require('../utils/db')
 const generatePolicy = (principalId, effect, resource) => {
     const authResponse = {};
     authResponse.principalId = principalId;
+    
     if (effect && resource) {
       const policyDocument = {};
       policyDocument.Version = '2012-10-17';
@@ -17,6 +18,7 @@ const generatePolicy = (principalId, effect, resource) => {
       policyDocument.Statement[0] = statementOne;
       authResponse.policyDocument = policyDocument;
     }
+    
     return authResponse;
 }
 
@@ -36,12 +38,12 @@ module.exports.verifyToken = (event, context, callback) => {
     db.User.findOne({ where: {token: token } })
         .then(res => {
             if(!res){
-                callback('Unauthorized');
+                callback('Unauthorized')
             }
             
             callback(null, generatePolicy(res.token, 'Allow', event.methodArn))
         })
         .catch(err => {
-            callback('Unauthorized');
+            callback('Unauthorized')
         })
 };

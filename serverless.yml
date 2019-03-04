@@ -7,20 +7,16 @@ provider:
 
 functions:
   users:
-    handler: functions/handler.users
+    handler: functions/handler.index
     events:
       - http: 
-          path: /users
-          method: GET
-
-  user:
-    handler: functions/handler.user
-    events:
-      - http: 
-          path: /user
-          method: GET
+          path: /numu-family/users
+          method: ANY
+      - http:
+          path: /numu-family/user
+          method: ANY
           authorizer: userAuth
-          
+
   userAuth:
     handler: middleware/user.verifyToken
 
