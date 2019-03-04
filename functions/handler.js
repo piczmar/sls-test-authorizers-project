@@ -3,10 +3,12 @@
 const db = require('../utils/db')
 
 module.exports.users = (event, context, callback) => {  
-  /**
+    context.callbackWaitsForEmptyEventLoop = false;
+
+   /**
    * Testing Response from Database
    */
-  db.User.findAll({})
+    db.User.findAll({})
     .then(users => {
         const response = {
             statusCode: 200,
@@ -18,6 +20,8 @@ module.exports.users = (event, context, callback) => {
         callback(null, response)
     })
     .catch(err => {
+        console.log('user:', err)
+
         const response = {
             statusCode: 500,
             body: JSON.stringify({
@@ -30,6 +34,7 @@ module.exports.users = (event, context, callback) => {
 };
 
 module.exports.user = (event, context, callback) => {
+    context.callbackWaitsForEmptyEventLoop = false;
     const user = event.requestContext.authorizer.principalId
 
     /**
