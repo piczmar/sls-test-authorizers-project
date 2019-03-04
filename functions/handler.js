@@ -35,18 +35,28 @@ module.exports.users = (event, context, callback) => {
 
 module.exports.user = (event, context, callback) => {
     context.callbackWaitsForEmptyEventLoop = false;
-    const user = event.requestContext.authorizer.principalId
+    const token = event.requestContext.authorizer.principalId
 
-    /**
-    * Testing Response
-    */
-    const response = {
-        statusCode: 200,
-        body: JSON.stringify({
-            user: user,
-            // input: event,
+    db.User.findOne({where: {token: token }})
+        .then(user => {
+            const response = {
+                statusCode: 200,
+                body: JSON.stringify({
+                    input: event,
+                    user,
+                })
+            }
+
+            callback(null, response)
         })
-    }
+        .catch(err => {
+            const response = {
+                statusCode: 500,
+                body: JSON.stringify({
+                    err,
+                })
+            }
 
-    callback(null, response)
+            callback(response)
+        })
 };
