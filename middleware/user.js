@@ -17,6 +17,8 @@ const generatePolicy = (principalId, effect, resource) => {
       statementOne.Resource = resource;
       policyDocument.Statement[0] = statementOne;
       authResponse.policyDocument = policyDocument;
+
+      /** Add User in Context */
     }
     
     return authResponse;

@@ -2,14 +2,15 @@ const Sequelize = require("sequelize")
 
 /**
  * Database Credentials
+ * =================================================
+ * Imported from .evn file 
+ * Create Free database at https://remotemysql.com/ 
  */
-const user = "MG9UqpUAkN"
-const password = "OyFVmriRzm" 
-const database = "MG9UqpUAkN"
-const dialect = "mysql"
-const host = "remotemysql.com"
 
-const connection = new Sequelize(database, user, password, { host, dialect })
+const connection = new Sequelize(process.env.DB_NAME, process.env.USERNAME, process.env.PASSWORD, { 
+    host: process.env.HOST, 
+    dialect: process.env.DIALECT
+})
 
 /**
  * Models
