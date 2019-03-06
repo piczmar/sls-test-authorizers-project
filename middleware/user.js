@@ -6,7 +6,7 @@ const db = require('../utils/db')
 const generatePolicy = (principalId, effect, resource) => {
     const authResponse = {};
     authResponse.principalId = principalId;
-    
+
     if (effect && resource) {
       const policyDocument = {};
       policyDocument.Version = '2012-10-17';
@@ -20,15 +20,16 @@ const generatePolicy = (principalId, effect, resource) => {
 
       /** Add User in Context */
     }
-    
+
     return authResponse;
 }
 
 module.exports.verifyToken = (event, context, callback) => {
     context.callbackWaitsForEmptyEventLoop = false;
-    
+    console.log("authorization, event",event);
+
     // check header or url parameters or post parameters for token
-    if (typeof event.authorizationToken === 'undefined') {      
+    if (typeof event.authorizationToken === 'undefined') {
         callback('Unauthorized');
     }
 
@@ -42,7 +43,7 @@ module.exports.verifyToken = (event, context, callback) => {
             if(!res){
                 callback('Unauthorized')
             }
-            
+
             callback(null, generatePolicy(res.token, 'Allow', event.methodArn))
         })
         .catch(err => {

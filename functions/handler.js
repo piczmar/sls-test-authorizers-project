@@ -10,9 +10,13 @@ const app = express()
  */
 app.get('/numu-family/user', (req, res) => {
     const token = req.body.auth
+    console.log("body.auth: ",token);
 
     db.User.findOne({where: {token: token}})
-        .then(user => res.status(200).send(user))
+        .then(user => {
+            console.log("found user: ", JSON.stringify(user));
+            res.status(200).send(user)
+        })
         .catch(err => res.send(`Get All Users - Error: ${err}`))
 })
 

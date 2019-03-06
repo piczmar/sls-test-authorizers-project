@@ -1,4 +1,4 @@
-service: test-project 
+service: test-authorizers-project
 
 provider:
   name: aws
@@ -15,7 +15,9 @@ functions:
       - http:
           path: /numu-family/user
           method: ANY
-          authorizer: userAuth
+          authorizer:
+            name: userAuth
+            identitySource: method.request.header.Authorization
 
   userAuth:
     handler: middleware/user.verifyToken
